@@ -1,0 +1,96 @@
+export const transactions = [
+  {
+    id: "ugeufigifhu",
+    service: "Purchased couponss",
+    type: "debit",
+    amount: 1500,
+    date: "2024-01-21 04:45 PM",
+  },
+
+  {
+    id: "ugeufigifhu",
+    service: "Wallet Amount Transfer to James Mugambi",
+    type: "debit",
+    amount: 3000,
+    date: "2024-01-21 04:45 PM",
+  },
+
+  {
+    id: "ugeufigifhu",
+    service: "credit by james mogambi",
+    type: "credit",
+    amount: 1500,
+    date: "2024-01-21 04:45 PM",
+  },
+  {
+    id: "ugeufigifhu",
+    service: "credit by james mogambi",
+    type: "credit",
+    amount: 1500,
+    date: "2024-01-21 04:45 PM",
+  },
+  {
+    id: "ugeufigifhu",
+    service: "Purchased coupons",
+    type: "debit",
+    amount: 1500,
+    date: "2024-01-21 04:45 PM",
+  },
+  {
+    id: "ugeufigifhu",
+    service: "credit by james mogambi",
+    type: "credit",
+    amount: 1500,
+    date: "2024-01-21 04:45 PM",
+  },
+  {
+    id: "ugeufigifhu",
+    service: "Paid To Store - Order #57411728",
+    type: "debit",
+    amount: 1500,
+    date: "2024-01-21 04:45 PM",
+  },
+  {
+    id: "ugeufigifhu",
+    service: "Paid To Store - Order #57411728",
+    type: "debit",
+    amount: 1500.0,
+    date: "2024-01-21 04:45 PM",
+  },
+  {
+    id: "ugeufigifhu",
+    service: "credit by james mogambi",
+    type: "credit",
+    amount: 1500,
+    date: "2024-01-21 04:45 PM",
+  },
+  {
+    id: "ugeufigifhu",
+    service: "credit by james mogambi",
+    type: "credit",
+    amount: 1500,
+    date: "2024-01-21 04:45 PM",
+  },
+  {
+    id: "ugeufigifhu",
+    service: "credit by walter",
+    type: "credit",
+    amount: 1500,
+    date: "2024-01-21 04:45 PM",
+  },
+  {
+    id: "ugeufigifhu",
+    service: "credit by deborah",
+    type: "credit",
+    amount: 8888,
+    date: "2024-01-21 04:45 PM",
+  },
+
+  {
+    id: "ugeufigifhu",
+    service: "credit by sasha",
+    type: "credit",
+    amount: 4444,
+    date: "2024-01-21 04:45 PM",
+  },
+];

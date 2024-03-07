@@ -60,7 +60,7 @@ export const items = [
     icon: (
       <Ionicons name="chatbox-ellipses-outline" size={24} color={green600} />
     ),
-    path: "ChatAdmin",
+    path: "LiveChat",
   },
   {
     name: "Support",
@@ -70,6 +70,6 @@ export const items = [
   {
     name: "Live Chat",
     icon: <Ionicons name="chatbubble-outline" size={24} color={green600} />,
-    path: "LiveChat",
+    path: "Chats",
   },
 ];

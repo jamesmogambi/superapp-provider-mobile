@@ -14,7 +14,12 @@ const filters = [
   "This Year",
   "All",
 ];
-const FilterOrderActionSheet = ({ isVisible, onCancel }) => {
+const FilterOrderActionSheet = ({
+  isVisible,
+  onCancel,
+  data = filters,
+  title = "Filter By",
+}) => {
   const [value, setValue] = useState("Today");
   return (
     <ActionSheet isVisible={isVisible} onCancel={onCancel}>
@@ -25,9 +30,7 @@ const FilterOrderActionSheet = ({ isVisible, onCancel }) => {
       </View>
       <View>
         <View className="p-4">
-          <Text className="text-lg font-medium text-neutral-800">
-            Filter By
-          </Text>
+          <Text className="text-lg font-medium text-neutral-800">{title}</Text>
         </View>
         <Divider />
 
@@ -36,7 +39,7 @@ const FilterOrderActionSheet = ({ isVisible, onCancel }) => {
             onValueChange={(newValue) => setValue(newValue)}
             value={value}
           >
-            {filters.map((i, k) => (
+            {data?.map((i, k) => (
               <View key={k} className="flex-row justify-between">
                 <Text className="text-base text-neutral-600">{i}</Text>
                 <RadioButton value={i} color={green600} />

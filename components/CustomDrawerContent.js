@@ -9,6 +9,7 @@ import { green600 } from "../constants/colors";
 import { items } from "../constants/drawer";
 import LogoutModal from "./LogoutModal";
 import { useState } from "react";
+import { Divider } from "react-native-paper";
 
 const CustomDrawerContent = (props) => {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
@@ -61,6 +62,7 @@ const CustomDrawerContent = (props) => {
               />
             </View>
           ))}
+          <Divider />
           <DrawerItem
             label={"Logout"}
             labelStyle={{ fontSize: 17, fontWeight: "400", color: "black" }}
