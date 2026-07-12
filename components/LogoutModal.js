@@ -1,10 +1,27 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React, { useState } from "react";
+import { useAuth } from "@clerk/clerk-expo";
 import ModalComponent from "./ModalComponent";
 import ButtonOutline from "./ButtonOutline";
 import ButtonContained from "./ButtonContained";
 
 const LogoutModal = ({ isVisible, onCancel }) => {
+  const { signOut } = useAuth();
+  const [loading, setLoading] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      setLoading(true);
+      // Clears the Clerk session; RootStack then renders the AuthStack.
+      await signOut();
+    } catch (err) {
+      console.error("Sign-out error:", err);
+    } finally {
+      setLoading(false);
+      onCancel();
+    }
+  };
+
   return (
     <ModalComponent isVisible={isVisible}>
       <View className="space-y-6">
@@ -17,7 +34,10 @@ const LogoutModal = ({ isVisible, onCancel }) => {
             <ButtonOutline label={"Cancel"} handlePress={onCancel} />
           </View>
           <View className="w-32">
-            <ButtonContained label="Logout" onPress={() => {}} />
+            <ButtonContained
+              label={loading ? "..." : "Logout"}
+              handlePress={handleLogout}
+            />
           </View>
         </View>
       </View>

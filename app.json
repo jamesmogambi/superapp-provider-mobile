@@ -1,8 +1,9 @@
 {
   "expo": {
-    "name": "dummy",
-    "slug": "dummy",
+    "name": "FOX-JEK Provider",
+    "slug": "foxjek-provider",
     "version": "1.0.0",
+    "scheme": "foxjek",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -15,9 +16,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.foxjek.provider"
     },
     "android": {
+      "package": "com.foxjek.provider",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -27,7 +30,10 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-status-bar"
+      "expo-status-bar",
+      "expo-secure-store",
+      "expo-web-browser",
+      "expo-font"
     ]
   }
 }

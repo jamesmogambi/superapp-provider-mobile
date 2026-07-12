@@ -28,8 +28,9 @@ yarn-error.*
 .DS_Store
 *.pem
 
-# local env files
+# local env files (personal overrides — never commit these)
 .env*.local
+.env.local
 
 # typescript
 *.tsbuildinfo
