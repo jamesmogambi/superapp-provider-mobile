@@ -1,9 +1,9 @@
 {
   "expo": {
-    "name": "FOX-JEK Provider",
-    "slug": "foxjek-provider",
+    "name": "Cabs&More Provider",
+    "slug": "cabsandmore-provider",
     "version": "1.0.0",
-    "scheme": "foxjek",
+    "scheme": "cabsandmore",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -17,10 +17,10 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.foxjek.provider"
+      "bundleIdentifier": "com.cabsandmore.provider"
     },
     "android": {
-      "package": "com.foxjek.provider",
+      "package": "com.cabsandmore.provider",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"

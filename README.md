@@ -1,6 +1,6 @@
-# SuperApp — Provider Mobile App
+# Cabs&More Provider
 
-The **provider-facing** mobile application for the SuperApp platform. This app is used by service providers (vendors, merchants, professionals) to manage their business on the go — receiving and fulfilling live orders, managing services and packages, chatting with customers and admins, and handling their wallet and payouts.
+The **provider-facing** mobile application for the Cabs&More super-app platform. This app is used by service providers (vendors, merchants, professionals) to manage their business on the go — receiving and fulfilling live orders, managing services and packages, chatting with customers and admins, and handling their wallet and payouts.
 
 Built with **React Native** and **Expo**.
 
@@ -92,4 +92,4 @@ Or scan the QR code from `npm start` using the Expo Go app.
 
 ## Related
 
-This is one part of the **SuperApp** ecosystem (provider app). It is intended to work alongside the customer app and admin/backend services.
+This is one part of the **Cabs&More** super-app ecosystem (provider app). It is intended to work alongside the customer app and admin/backend services.
