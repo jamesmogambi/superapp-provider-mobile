@@ -10,9 +10,13 @@ import { items } from "../constants/drawer";
 import LogoutModal from "./LogoutModal";
 import { useState } from "react";
 import { Divider } from "react-native-paper";
+import { useUser } from "@clerk/clerk-expo";
+
+const DEFAULT_AVATAR = "https://mui.com/static/images/avatar/1.jpg";
 
 const CustomDrawerContent = (props) => {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const { user, isLoaded } = useUser();
 
   const { navigation } = props;
 
@@ -35,16 +39,16 @@ const CustomDrawerContent = (props) => {
       <View className=" py-5 flex-row space-x-3  items-center px-4  mt-10">
         <Image
           className="rounded-full h-20 w-20"
-          source={require("../assets/images/user.jpg")}
+          source={{ uri: user?.imageUrl || DEFAULT_AVATAR }}
         />
         <View>
-          <Text className="text-green-600 text-xl font-semibold">
-            Provider Name
+          <Text className="text-green-600 ml-4 text-xl font-semibold">
+            {isLoaded ? user?.fullName || " Name" : " Name"}
           </Text>
         </View>
       </View>
       <DrawerContentScrollView {...props} showsVerticalScrollIndicator={false}>
-        <View className="-mt-14 ">
+        <View className=" -mt-5">
           {/* <DrawerItemList {...props} /> */}
 
           {items.map((i, k) => (
