@@ -69,7 +69,7 @@ const OrderFooter = () => {
   return (
     <Surface
       elevation={5}
-      className="bg-white p-4"
+      className="bg-white "
       style={{ paddingBottom: Math.max(insets.bottom, 12) }}
     >
       <View className="">
