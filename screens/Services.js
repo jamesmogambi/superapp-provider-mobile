@@ -1,5 +1,6 @@
 import { View, Text, FlatList } from "react-native";
 import React, { useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 import Stack from "../components/Stack";
 import { services } from "../fixtures/service";
 import { Divider } from "react-native-paper";
@@ -15,25 +16,27 @@ const Services = () => {
         isVisible={showActionsheet}
         onCancel={() => setShowActionsheet(false)}
       />
-      <View className="flex-1 justify-between">
-        <FlatList
-          data={services}
-          renderItem={({ item, index }) => (
-            <View className="p-4">
-              <ServiceItem item={item} />
-            </View>
-          )}
-          keyExtractor={(item, index) => item + index}
-          showsVerticalScrollIndicator={false}
-          ItemSeparatorComponent={<Divider />}
-        />
-        <View className="p-4">
-          <ButtonContained
-            label={"Add Service"}
-            handlePress={() => setShowActionsheet(true)}
+      <SafeAreaView className="flex-1" edges={["bottom"]}>
+        <View className="flex-1 justify-between">
+          <FlatList
+            data={services}
+            renderItem={({ item, index }) => (
+              <View className="p-4">
+                <ServiceItem item={item} />
+              </View>
+            )}
+            keyExtractor={(item, index) => item + index}
+            showsVerticalScrollIndicator={false}
+            ItemSeparatorComponent={<Divider />}
           />
+          <View className="p-4">
+            <ButtonContained
+              label={"Add Service"}
+              handlePress={() => setShowActionsheet(true)}
+            />
+          </View>
         </View>
-      </View>
+      </SafeAreaView>
     </Stack>
   );
 };
