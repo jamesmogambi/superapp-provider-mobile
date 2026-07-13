@@ -122,28 +122,47 @@ const ProfileForm = ({ onSubmitSuccess }) => {
         setFieldValue,
         isSubmitting,
       }) => (
-        <View className="flex-1 border-red-300 justify-between space-y-4">
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <View className="">
-              {/* update image */}
-              <View className="items-center pb-8 pt-4">
-                <View className="items-center space-y-2">
-                  <Image
-                    className="h-20 w-20 rounded-full"
-                    source={{ uri: values.image || DEFAULT_AVATAR }}
-                  />
-                  <Pressable
-                    onPress={() => pickImage(setFieldValue)}
-                    disabled={isSubmitting}
-                  >
-                    <Text className="text-lg font-medium text-green-600">
-                      Change Picture
-                    </Text>
-                  </Pressable>
-                </View>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={{ flexGrow: 1 }}
+        >
+          <View className="p-4">
+            {/* Header */}
+            <View className="pt-2 pb-6">
+              <Text className="text-3xl font-bold text-neutral-800">
+                Edit Profile
+              </Text>
+              <Text className="text-neutral-500 mt-1">
+                Manage your personal information
+              </Text>
+            </View>
+
+            {/* Profile Image */}
+            <View className="items-center py-6">
+              <View className="items-center space-y-3">
+                <Image
+                  className="h-24 w-24 rounded-full"
+                  source={{ uri: values.image || DEFAULT_AVATAR }}
+                />
+                <Pressable
+                  onPress={() => pickImage(setFieldValue)}
+                  disabled={isSubmitting}
+                  className="px-4 py-2 bg-green-50 rounded-full"
+                >
+                  <Text className="text-green-600 font-medium">
+                    Change Picture
+                  </Text>
+                </Pressable>
               </View>
-              {/* form inputs */}
-              <View>
+            </View>
+
+            {/* Personal Information */}
+            <View className="mb-6">
+              <Text className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-3 ml-1">
+                Personal Information
+              </Text>
+              <View className="space-y-3">
                 <InputOutline
                   icon="account-outline"
                   label="Full Name"
@@ -151,103 +170,124 @@ const ProfileForm = ({ onSubmitSuccess }) => {
                   onChange={handleChange("fullName")}
                 />
 
-                <View className="flex-row items-center py-1 mt-2">
-                  <Text className="mr-3 text-base">Gender</Text>
+                <View className="bg-neutral-50 p-4 rounded-2xl">
+                  <Text className="text-sm text-neutral-500 mb-2 ml-1">
+                    Gender
+                  </Text>
                   <RadioButton.Group
                     onValueChange={handleChange("gender")}
                     value={values.gender}
                   >
-                    <View className="flex-row space-x-3">
+                    <View className="flex-row space-x-6">
                       <View className="flex-row items-center">
-                        <Text className="text-base">Male</Text>
+                        <Text className="text-base text-neutral-700">
+                          Male
+                        </Text>
                         <RadioButton value="Male" color={green600} />
                       </View>
                       <View className="flex-row items-center">
-                        <Text className="text-base">Female</Text>
+                        <Text className="text-base text-neutral-700">
+                          Female
+                        </Text>
                         <RadioButton value="Female" color={green600} />
                       </View>
                     </View>
                   </RadioButton.Group>
                 </View>
-                <View className="space-y-3">
-                  <InputOutline
-                    icon="email-edit-outline"
-                    label="Email Address"
-                    value={values.email}
-                    onChange={handleChange("email")}
-                  />
-
-                  <InputOutline
-                    icon="phone-outline"
-                    label="Mobile Number"
-                    value={values.mobileNumber}
-                    onChange={handleChange("mobileNumber")}
-                    keyboardType="phone-pad"
-                  />
-
-                  <InputOutline
-                    icon="map-marker-outline"
-                    label="Landmark"
-                    value={values.landmark}
-                    onChange={handleChange("landmark")}
-                  />
-
-                  <InputOutline
-                    icon="crosshairs-gps"
-                    label="Home Location"
-                    value={values.homeLocation}
-                    onChange={handleChange("homeLocation")}
-                  />
-
-                  <SelectInput
-                    data={[
-                      "0.5 Km",
-                      "1.0 Km",
-                      "5.0 Km",
-                      "10.0 Km",
-                      "15.0 Km",
-                      "20.0 Km",
-                      "25.0 Km",
-                      "30.0 Km",
-                    ]}
-                    onChange={handleChange("serviceRadius")}
-                    label="Store delivery radius"
-                    value={values.serviceRadius}
-                    defaultValue={"10.0 Km"}
-                    icon={
-                      <MaterialIcons
-                        name="location-searching"
-                        size={24}
-                        color="#737373"
-                      />
-                    }
-                  />
-
-                  <InputOutline
-                    icon="cash-multiple"
-                    label="Minimum order"
-                    value={values.minOrder}
-                    onChange={handleChange("minOrder")}
-                  />
-                </View>
               </View>
             </View>
-          </ScrollView>
 
-          <View className="flex-row mt-5 justify-between">
-            {/* action buttons */}
-            <View className="w-[48%]">
-              <ButtonOutline label="Delete" />
+            {/* Contact & Location */}
+            <View className="mb-6">
+              <Text className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-3 ml-1">
+                Contact & Location
+              </Text>
+              <View className="space-y-3">
+                <InputOutline
+                  icon="email-edit-outline"
+                  label="Email Address"
+                  value={values.email}
+                  onChange={handleChange("email")}
+                />
+
+                <InputOutline
+                  icon="phone-outline"
+                  label="Mobile Number"
+                  value={values.mobileNumber}
+                  onChange={handleChange("mobileNumber")}
+                  keyboardType="phone-pad"
+                />
+
+                <InputOutline
+                  icon="map-marker-outline"
+                  label="Landmark"
+                  value={values.landmark}
+                  onChange={handleChange("landmark")}
+                />
+
+                <InputOutline
+                  icon="crosshairs-gps"
+                  label="Home Location"
+                  value={values.homeLocation}
+                  onChange={handleChange("homeLocation")}
+                />
+              </View>
             </View>
-            <View className="w-[48%]">
-              <ButtonContained
-                label={isSubmitting ? "Updating…" : "Update"}
-                handlePress={handleSubmit}
-                disabled={isSubmitting}
-              />
+
+            {/* Service Settings */}
+            <View className="mb-8">
+              <Text className="text-xs font-semibold text-neutral-400 uppercase tracking-wider mb-3 ml-1">
+                Service Settings
+              </Text>
+              <View className="space-y-3">
+                <SelectInput
+                  data={[
+                    "0.5 Km",
+                    "1.0 Km",
+                    "5.0 Km",
+                    "10.0 Km",
+                    "15.0 Km",
+                    "20.0 Km",
+                    "25.0 Km",
+                    "30.0 Km",
+                  ]}
+                  onChange={handleChange("serviceRadius")}
+                  label="Store delivery radius"
+                  value={values.serviceRadius}
+                  defaultValue={"10.0 Km"}
+                  icon={
+                    <MaterialIcons
+                      name="location-searching"
+                      size={24}
+                      color="#737373"
+                    />
+                  }
+                />
+
+                <InputOutline
+                  icon="cash-multiple"
+                  label="Minimum order"
+                  value={values.minOrder}
+                  onChange={handleChange("minOrder")}
+                />
+              </View>
+            </View>
+
+            {/* Action Buttons */}
+            <View className="flex-row justify-between mb-8">
+              <View className="w-[48%]">
+                <ButtonOutline label="Delete" />
+              </View>
+              <View className="w-[48%]">
+                <ButtonContained
+                  label={isSubmitting ? "Updating…" : "Update"}
+                  handlePress={handleSubmit}
+                  disabled={isSubmitting}
+                />
+              </View>
             </View>
           </View>
-        </View>
+        </ScrollView>
       )}
     </Formik>
   );

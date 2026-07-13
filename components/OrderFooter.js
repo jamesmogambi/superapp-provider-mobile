@@ -4,7 +4,10 @@ import { Surface, Switch } from "react-native-paper";
 import { Entypo } from "@expo/vector-icons";
 import { green600 } from "../constants/colors";
 import { useUser } from "@clerk/clerk-expo";
-import { getProviderProfile, updateProviderOnlineStatus } from "../services/profile";
+import {
+  getProviderProfile,
+  updateProviderOnlineStatus,
+} from "../services/profile";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const OrderFooter = () => {
@@ -64,11 +67,18 @@ const OrderFooter = () => {
   const distance = profile?.distance || "";
 
   return (
-    <Surface elevation={5} className="bg-white p-4" style={{ paddingBottom: Math.max(insets.bottom, 12) }}>
-      <View>
+    <Surface
+      elevation={5}
+      className="bg-white p-4"
+      style={{ paddingBottom: Math.max(insets.bottom, 12) }}
+    >
+      <View className="">
         <View className="flex-row justify-between items-center">
-          <View className="flex-row space-x-3 items-center">
-            <Image source={{ uri: imageUri }} className="rounded-xl h-14 w-14" />
+          <View className="flex-row gap-3 p-2 items-center">
+            <Image
+              source={{ uri: imageUri }}
+              className="rounded-xl h-14 w-14"
+            />
             <View className="">
               <Text className="text-base font-medium">{name}</Text>
               <View className="flex-row space-x-2 items-center">
