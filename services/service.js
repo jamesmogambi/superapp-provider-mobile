@@ -1,5 +1,5 @@
 import { db } from "../firebaseConfig";
-import { collection, getDocs, query, where, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, getDocs, query, where, addDoc, serverTimestamp, doc, deleteDoc, updateDoc } from "firebase/firestore";
 
 export const getProviderServices = async () => {
   try {
@@ -29,7 +29,7 @@ export const addUserServices = async (userId, selectedServices) => {
   try {
     const created = [];
     for (const service of selectedServices) {
-      const docRef = await addDoc(collection(db, "services"), {
+      const payload = {
         category: "provider-service",
         name: service.name,
         status: "Pending",
@@ -40,12 +40,36 @@ export const addUserServices = async (userId, selectedServices) => {
         createdBy: userId,
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
-      });
-      created.push({ id: docRef.id, ...docRef.data() });
+      };
+      const docRef = await addDoc(collection(db, "services"), payload);
+      created.push({ id: docRef.id, ...payload });
     }
     return created;
   } catch (err) {
     console.error("Failed to add services", err);
+    throw err;
+  }
+};
+
+export const deleteUserService = async (serviceId) => {
+  if (!serviceId) return;
+  try {
+    await deleteDoc(doc(db, "services", serviceId));
+  } catch (err) {
+    console.error("Failed to delete service", err);
+    throw err;
+  }
+};
+
+export const updateUserService = async (serviceId, updates) => {
+  if (!serviceId) return;
+  try {
+    await updateDoc(doc(db, "services", serviceId), {
+      ...updates,
+      updatedAt: serverTimestamp(),
+    });
+  } catch (err) {
+    console.error("Failed to update service", err);
     throw err;
   }
 };

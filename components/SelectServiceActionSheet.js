@@ -55,7 +55,7 @@ const SelectServiceActionSheet = ({ isVisible, onCancel, services = [], onDone }
             />
           </View>
           <View className="px-[30%] py-2">
-            <ButtonContained label={"Done"} onPress={handleDone} />
+            <ButtonContained label={"Done"} handlePress={handleDone} />
           </View>
         </View>
       </View>

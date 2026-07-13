@@ -7,13 +7,17 @@ import { Switch } from "react-native-paper";
 import RemoveServiceItemModal from "./RemoveServiceItemModal";
 import { useNavigation } from "@react-navigation/native";
 
-const ServiceItem = ({ item }) => {
+const ServiceItem = ({ item, onRemove, onToggleActive }) => {
   const { name, status, online } = item;
 
   const [isSwitchOn, setIsSwitchOn] = React.useState(online);
   const [showModal, setShowModal] = useState(false);
 
-  const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
+  const onToggleSwitch = () => {
+    const next = !isSwitchOn;
+    setIsSwitchOn(next);
+    onToggleActive?.(item, next);
+  };
 
   const navigation = useNavigation();
   return (
@@ -21,6 +25,10 @@ const ServiceItem = ({ item }) => {
       <RemoveServiceItemModal
         isVisible={showModal}
         onCancel={() => setShowModal(false)}
+        onConfirm={() => {
+          setShowModal(false);
+          onRemove?.(item);
+        }}
       />
       <Pressable className="space-y-2.5">
         <View className="flex-row items-center justify-between">
