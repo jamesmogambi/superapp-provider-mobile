@@ -69,3 +69,12 @@ export const getProviderProfile = async (userId) => {
   if (!snap.exists()) return null;
   return snap.data();
 };
+
+export const updateProviderOnlineStatus = async (userId, online) => {
+  if (!userId) return;
+  await setDoc(
+    doc(db, "providers", userId),
+    { online, updatedAt: serverTimestamp() },
+    { merge: true }
+  );
+};
