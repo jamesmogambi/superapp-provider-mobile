@@ -20,7 +20,6 @@ const HomeTabs = () => {
         tabBarScrollEnabled: true,
         tabBarIndicatorStyle: { backgroundColor: green600 },
       }}
-      scrollEnabled={true}
     >
       <Tab.Screen name="New" component={Orders} />
       <Tab.Screen

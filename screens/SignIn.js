@@ -1,12 +1,11 @@
 import React, { useCallback, useState } from "react";
-import { View, Text, Pressable, ActivityIndicator } from "react-native";
+import { View, Text, Pressable, ActivityIndicator, KeyboardAvoidingView, ScrollView, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSignIn } from "@clerk/clerk-expo";
 import { useNavigation } from "@react-navigation/native";
 import InputOutline from "../components/InputOutline";
 import ButtonContained from "../components/ButtonContained";
 
-// Pulls a human-readable message out of a Clerk API error.
 const clerkError = (err, fallback) =>
   err?.errors?.[0]?.longMessage || err?.errors?.[0]?.message || fallback;
 
@@ -33,8 +32,6 @@ const SignIn = () => {
       });
 
       if (attempt.status === "complete") {
-        // Activating the session flips useAuth().isSignedIn -> true, so
-        // RootStack renders HomeStack — that is the redirect to Home.
         await setActive({ session: attempt.createdSessionId });
       } else {
         console.warn("Sign-in incomplete, status:", attempt.status);
@@ -49,56 +46,67 @@ const SignIn = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <View className="flex-1 justify-center p-6">
-        {/* Branding */}
-        <View className="space-y-2 mb-8">
-          <Text className="text-3xl text-neutral-800">Welcome to</Text>
-          <Text className="text-green-600 text-4xl font-bold">Cabs&More</Text>
-          <Text className="text-base text-neutral-500 mt-2">
-            Sign in to manage your services, orders and wallet.
-          </Text>
-        </View>
+      <KeyboardAvoidingView
+        className="flex-1"
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+        >
+          <View className="p-6">
+            {/* Branding */}
+            <View className="space-y-2 mb-8">
+              <Text className="text-3xl text-neutral-800">Welcome to</Text>
+              <Text className="text-green-600 text-4xl font-bold">Cabs&More</Text>
+              <Text className="text-base text-neutral-500 mt-2">
+                Sign in to manage your services, orders and wallet.
+              </Text>
+            </View>
 
-        {/* Form */}
-        <View className="space-y-4">
-          <InputOutline
-            icon="email-outline"
-            label="Email Address"
-            value={email}
-            onChange={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            autoComplete="email"
-          />
-          <InputOutline
-            icon="lock-outline"
-            label="Password"
-            value={password}
-            onChange={setPassword}
-            secureTextEntry
-            autoCapitalize="none"
-          />
+            {/* Form */}
+            <View className="space-y-4">
+              <InputOutline
+                icon="email-outline"
+                label="Email Address"
+                value={email}
+                onChange={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoComplete="email"
+              />
+              <InputOutline
+                icon="lock-outline"
+                label="Password"
+                value={password}
+                onChange={setPassword}
+                secureTextEntry
+                autoCapitalize="none"
+              />
 
-          {error ? (
-            <Text className="text-red-500 text-sm">{error}</Text>
-          ) : null}
+              {error ? (
+                <Text className="text-red-500 text-sm">{error}</Text>
+              ) : null}
 
-          <View className={`${loading ? "opacity-70" : ""} mt-2`}>
-            <ButtonContained
-              label={loading ? "Signing in..." : "Sign In"}
-              handlePress={onSignIn}
-            />
+              <View className={`${loading ? "opacity-70" : ""} mt-2`}>
+                <ButtonContained
+                  label={loading ? "Signing in..." : "Sign In"}
+                  handlePress={onSignIn}
+                />
+              </View>
+            </View>
+
+            {/* Footer */}
+            <View className="flex-row justify-center mt-8 space-x-1">
+              <Text className="text-neutral-500">Don't have an account?</Text>
+              <Pressable onPress={() => navigation.navigate("SignUp")}>
+                <Text className="text-green-600 font-semibold">Sign Up</Text>
+              </Pressable>
+            </View>
           </View>
-        </View>
-
-        {/* Footer */}
-        <View className="flex-row justify-center mt-8 space-x-1">
-          <Text className="text-neutral-500">Don't have an account?</Text>
-          <Pressable onPress={() => navigation.navigate("SignUp")}>
-            <Text className="text-green-600 font-semibold">Sign Up</Text>
-          </Pressable>
-        </View>
-      </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
