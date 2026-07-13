@@ -1,4 +1,4 @@
-import { View, Text, FlatList } from "react-native";
+import { View, Text, FlatList, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Stack from "../components/Stack";
@@ -7,14 +7,13 @@ import { Divider } from "react-native-paper";
 import ServiceItem from "../components/ServiceItem";
 import ButtonContained from "../components/ButtonContained";
 import SelectServiceActionSheet from "../components/SelectServiceActionSheet";
-import { getUserServices, getProviderServices } from "../services/service";
+import { getUserServices, getProviderServices, addUserServices } from "../services/service";
 import { useUser } from "@clerk/clerk-expo";
 
 const Services = () => {
   const [showActionsheet, setShowActionsheet] = useState(false);
   const [userServices, setUserServices] = useState([]);
   const [availableServices, setAvailableServices] = useState([]);
-  const [loading, setLoading] = useState(true);
   const { user, isLoaded } = useUser();
 
   useEffect(() => {
@@ -32,10 +31,6 @@ const Services = () => {
         }
       } catch {
         // keep defaults on error
-      } finally {
-        if (active) {
-          setLoading(false);
-        }
       }
     };
 
@@ -50,12 +45,25 @@ const Services = () => {
 
   const services = userServices.length > 0 ? userServices : fixturesServices;
 
+  const handleDone = async (selectedServices) => {
+    try {
+      await addUserServices(user.id, selectedServices);
+      const updated = await getUserServices(user.id);
+      setUserServices(updated);
+    } catch {
+      Alert.alert("Error", "Failed to add services. Please try again.");
+    } finally {
+      setShowActionsheet(false);
+    }
+  };
+
   return (
     <Stack>
       <SelectServiceActionSheet
         isVisible={showActionsheet}
         onCancel={() => setShowActionsheet(false)}
         services={availableServices}
+        onDone={handleDone}
       />
       <SafeAreaView className="flex-1" edges={["bottom"]}>
         <View className="flex-1 justify-between">
