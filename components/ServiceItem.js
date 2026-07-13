@@ -38,7 +38,7 @@ const ServiceItem = ({ item, onRemove, onToggleActive }) => {
         <View className="flex-row justify-between items-center">
           <View className="flex-row space-x-2.5">
             <Pressable
-              onPress={() => navigation.navigate("Packages")}
+              onPress={() => navigation.navigate("Packages", { service: item })}
               className="flex-row p-2 px-3 items-center border-[0.5px] rounded-3xl space-x-2"
             >
               <Ionicons name="eye" size={19} color={green600} />

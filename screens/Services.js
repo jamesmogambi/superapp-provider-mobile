@@ -1,8 +1,10 @@
-import { View, Text, FlatList, Alert, ActivityIndicator } from "react-native";
+import { View, Text, FlatList, Alert, ActivityIndicator, Pressable } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Stack from "../components/Stack";
 import { Divider } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
+import { Feather } from "@expo/vector-icons";
 import ServiceItem from "../components/ServiceItem";
 import ButtonContained from "../components/ButtonContained";
 import SelectServiceActionSheet from "../components/SelectServiceActionSheet";
@@ -18,6 +20,21 @@ const Services = () => {
   const availableServices = useServicesStore((s) => s.services);
   const fetchServices = useServicesStore((s) => s.fetchServices);
   const { user, isLoaded } = useUser();
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <Pressable
+          onPress={() => navigation.navigate("Root")}
+          className="px-3"
+          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+        >
+          <Feather name="arrow-left" size={24} color="black" />
+        </Pressable>
+      ),
+    });
+  }, [navigation]);
 
   useEffect(() => {
     fetchServices();
