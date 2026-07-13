@@ -139,18 +139,17 @@ const ProfileForm = ({ onSubmitSuccess }) => {
             </View>
 
             {/* Profile Image */}
-            <View className="items-center py-6">
-              <View className="items-center space-y-3">
+            <View className="items-center pb-8 pt-4">
+              <View className="items-center space-y-2">
                 <Image
-                  className="h-24 w-24 rounded-full"
+                  className="h-20 w-20 rounded-full"
                   source={{ uri: values.image || DEFAULT_AVATAR }}
                 />
                 <Pressable
                   onPress={() => pickImage(setFieldValue)}
                   disabled={isSubmitting}
-                  className="px-4 py-2 bg-green-50 rounded-full"
                 >
-                  <Text className="text-green-600 font-medium">
+                  <Text className="text-lg font-medium text-green-600">
                     Change Picture
                   </Text>
                 </Pressable>
