@@ -7,27 +7,60 @@ import { Divider } from "react-native-paper";
 import ServiceItem from "../components/ServiceItem";
 import ButtonContained from "../components/ButtonContained";
 import SelectServiceActionSheet from "../components/SelectServiceActionSheet";
-import { useServicesStore } from "../store/servicesStore";
+import { getUserServices, getProviderServices } from "../services/service";
+import { useUser } from "@clerk/clerk-expo";
 
 const Services = () => {
   const [showActionsheet, setShowActionsheet] = useState(false);
-  const services = useServicesStore((state) => state.services);
-  const fetchServices = useServicesStore((state) => state.fetchServices);
+  const [userServices, setUserServices] = useState([]);
+  const [availableServices, setAvailableServices] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { user, isLoaded } = useUser();
 
   useEffect(() => {
-    fetchServices();
-  }, [fetchServices]);
+    let active = true;
+
+    const load = async () => {
+      try {
+        const [userData, availableData] = await Promise.all([
+          user?.id ? getUserServices(user.id) : [],
+          getProviderServices(),
+        ]);
+        if (active) {
+          setUserServices(userData);
+          setAvailableServices(availableData);
+        }
+      } catch {
+        // keep defaults on error
+      } finally {
+        if (active) {
+          setLoading(false);
+        }
+      }
+    };
+
+    if (isLoaded) {
+      load();
+    }
+
+    return () => {
+      active = false;
+    };
+  }, [user?.id, isLoaded]);
+
+  const services = userServices.length > 0 ? userServices : fixturesServices;
 
   return (
     <Stack>
       <SelectServiceActionSheet
         isVisible={showActionsheet}
         onCancel={() => setShowActionsheet(false)}
+        services={availableServices}
       />
       <SafeAreaView className="flex-1" edges={["bottom"]}>
         <View className="flex-1 justify-between">
           <FlatList
-            data={services.length > 0 ? services : fixturesServices}
+            data={services}
             renderItem={({ item, index }) => (
               <View className="p-4">
                 <ServiceItem item={item} />

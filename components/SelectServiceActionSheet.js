@@ -5,13 +5,10 @@ import { Feather } from "@expo/vector-icons";
 import ButtonContained from "./ButtonContained";
 import { Checkbox, Divider } from "react-native-paper";
 import { green600 } from "../constants/colors";
-import { useServicesStore } from "../store/servicesStore";
 
 const height = Dimensions.get("window").height;
 
-const SelectServiceActionSheet = ({ isVisible, onCancel }) => {
-  const services = useServicesStore((state) => state.services);
-
+const SelectServiceActionSheet = ({ isVisible, onCancel, services = [] }) => {
   const renderItem = ({ item }) => (
     <View className="flex-row justify-between">
       <Text className="text-base">{item.name}</Text>
