@@ -31,7 +31,7 @@ const ProfileForm = ({ onSubmitSuccess }) => {
   const { user, isLoaded } = useUser();
   const navigation = useNavigation();
   const [initialValues, setInitialValues] = useState(() =>
-    buildInitialValues(user)
+    buildInitialValues(user),
   );
   const [dbProfile, setDbProfile] = useState(null);
 
@@ -129,14 +129,14 @@ const ProfileForm = ({ onSubmitSuccess }) => {
         >
           <View className="p-4">
             {/* Header */}
-            <View className="pt-2 pb-6">
+            {/* <View className="pt-2 pb-6">
               <Text className="text-3xl font-bold text-neutral-800">
                 Edit Profile
               </Text>
               <Text className="text-neutral-500 mt-1">
                 Manage your personal information
               </Text>
-            </View>
+            </View> */}
 
             {/* Profile Image */}
             <View className="items-center pb-8 pt-4">
@@ -179,9 +179,7 @@ const ProfileForm = ({ onSubmitSuccess }) => {
                   >
                     <View className="flex-row space-x-6">
                       <View className="flex-row items-center">
-                        <Text className="text-base text-neutral-700">
-                          Male
-                        </Text>
+                        <Text className="text-base text-neutral-700">Male</Text>
                         <RadioButton value="Male" color={green600} />
                       </View>
                       <View className="flex-row items-center">

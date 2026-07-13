@@ -5,62 +5,20 @@ import { Feather } from "@expo/vector-icons";
 import ButtonContained from "./ButtonContained";
 import { Checkbox, Divider } from "react-native-paper";
 import { green600 } from "../constants/colors";
-
-const services = [
-  {
-    name: "Dog Walking",
-    checked: true,
-  },
-  {
-    name: "Pet Care",
-    checked: true,
-  },
-  {
-    name: "Baby Care",
-    checked: true,
-  },
-  {
-    name: "Dog Walking",
-    checked: false,
-  },
-  {
-    name: "Dog Walking",
-    checked: false,
-  },
-  {
-    name: "Dog Walking",
-    checked: true,
-  },
-  {
-    name: "Dog Walking",
-    checked: true,
-  },
-  {
-    name: "Dog Walking",
-    checked: true,
-  },
-  {
-    name: "Dog Walking",
-    checked: true,
-  },
-  {
-    name: "Dog Walking",
-    checked: true,
-  },
-  {
-    name: "Dog Walking",
-    checked: true,
-  },
-  {
-    name: "Dog Walking",
-    checked: true,
-  },
-];
+import { useServicesStore } from "../store/servicesStore";
 
 const height = Dimensions.get("window").height;
 
 const SelectServiceActionSheet = ({ isVisible, onCancel }) => {
-  const [checked, setChecked] = React.useState(false);
+  const services = useServicesStore((state) => state.services);
+
+  const renderItem = ({ item }) => (
+    <View className="flex-row justify-between">
+      <Text className="text-base">{item.name}</Text>
+      <Checkbox status="unchecked" color={green600} />
+    </View>
+  );
+
   return (
     <ActionSheet isVisible={isVisible} onCancel={onCancel}>
       <View style={{ height: height / 2 }}>
@@ -80,21 +38,9 @@ const SelectServiceActionSheet = ({ isVisible, onCancel }) => {
           <View className="p-4 pt-0  flex-1">
             <FlatList
               data={services}
-              renderItem={({ item, index }) => (
-                <View className="flex-row justify-between">
-                  <Text className="text-base">{item.name}</Text>
-                  <Checkbox
-                    status={item.checked ? "checked" : "unchecked"}
-                    onPress={() => {
-                      setChecked(!checked);
-                    }}
-                    color={green600}
-                  />
-                </View>
-              )}
-              keyExtractor={(item, index) => item + index}
+              renderItem={renderItem}
+              keyExtractor={(item, index) => item.id || item.name + index}
               showsVerticalScrollIndicator={false}
-              //   ItemSeparatorComponent={<Divider />}
             />
           </View>
           <View className="px-[30%] py-2">
