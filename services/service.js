@@ -135,3 +135,51 @@ export const deletePackage = async (packageId) => {
     throw err;
   }
 };
+
+export const getAvailability = async (userId, day) => {
+  if (!userId || !day) return [];
+  try {
+    const q = query(
+      collection(db, "availability"),
+      where("userId", "==", userId),
+      where("day", "==", day)
+    );
+    const snapshot = await getDocs(q);
+    if (!snapshot.empty) {
+      return snapshot.docs[0].data().slots || [];
+    }
+    return [];
+  } catch (err) {
+    console.error("Failed to fetch availability", err);
+    return [];
+  }
+};
+
+export const saveAvailability = async (userId, day, slots) => {
+  if (!userId || !day) return;
+  try {
+    const q = query(
+      collection(db, "availability"),
+      where("userId", "==", userId),
+      where("day", "==", day)
+    );
+    const snapshot = await getDocs(q);
+    if (!snapshot.empty) {
+      await updateDoc(snapshot.docs[0].ref, {
+        slots,
+        updatedAt: serverTimestamp(),
+      });
+    } else {
+      await addDoc(collection(db, "availability"), {
+        userId,
+        day,
+        slots,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      });
+    }
+  } catch (err) {
+    console.error("Failed to save availability", err);
+    throw err;
+  }
+};
