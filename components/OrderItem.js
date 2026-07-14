@@ -1,5 +1,5 @@
 import { View, Text, Pressable, Image } from "react-native";
-import { MaterialCommunityIcons, Feather } from "@expo/vector-icons";
+import { MaterialCommunityIcons, Feather, Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { green600 } from "../constants/colors";
 import { updateOrderStatus } from "../services/order";
@@ -146,35 +146,55 @@ const OrderItem = ({ item, onStatusUpdate }) => {
           Order ID : #{orderId}
         </Text>
 
-        <View className="flex-row space-x-2">
-          <MaterialCommunityIcons
+        <View className="flex-row gap-2">
+          {/* <MaterialCommunityIcons
             name="calendar-clock"
             size={20}
             color={green600}
-          />
+          /> */}
+
+          <Ionicons name="calendar-clear-outline" size={18} color={green600} />
           <Text className="italic text-neutral-700">{bookingDate}</Text>
         </View>
-        <View className="flex-row space-x-2 items-center">
-          <MaterialCommunityIcons name="hand-coin" size={20} color={green600} />
-          <View className="flex-1 flex-row  space-x-1 flex-wrap">
-            {order.map((i, k) => (
-              <View key={k} className="flex-row items-center ">
-                <Text className="text-neutral-700">{i.name}</Text>
-                {/* <Feather name="x" size={15} color="black" />
+        <View className="flex-row mb-1.5 gap-2 items-center">
+          {/* <MaterialCommunityIcons name="hand-coin" size={20} color={green600} /> */}
+          <MaterialCommunityIcons
+            name="account-clock-outline"
+            size={22}
+            color={green600}
+          />
+          <View className="flex-1 flex-row justify-between">
+            <View className="flex flex-row gap-1">
+              {order.map((i, k) => (
+                <View key={k} className="flex-row items-center ">
+                  <Text className="text-neutral-700">{i.name},</Text>
+                  {/* <Feather name="x" size={15} color="black" />
                 <Text className="text-neutral-700">
                   {i.quantity} {k !== order.length - 1 && ","}
                 </Text> */}
+                </View>
+              ))}
+            </View>
+
+            {customer?.name ? (
+              <View className="flex-row space-x-2 items-center">
+                <MaterialCommunityIcons
+                  name="account"
+                  size={20}
+                  color={"#fb923c"}
+                />
+                <Text className="text-neutral-700">{customer.name}</Text>
               </View>
-            ))}
+            ) : null}
           </View>
         </View>
-
+        {/* 
         {customer?.name ? (
           <View className="flex-row space-x-2 items-center">
             <MaterialCommunityIcons name="account" size={20} color={green600} />
             <Text className="text-neutral-700">{customer.name}</Text>
           </View>
-        ) : null}
+        ) : null} */}
       </Pressable>
 
       <View className="flex-row gap-2 justify-between">
