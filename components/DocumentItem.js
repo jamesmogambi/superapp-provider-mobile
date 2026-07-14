@@ -76,7 +76,7 @@ const DocumentItem = ({ docType, name, placeholderImage }) => {
         </View>
         <View className="flex-row justify-end gap-2">
           {existingDoc && (
-            <View className="w-24">
+            <View className="w-28">
               <ButtonContained
                 label={"Delete"}
                 handlePress={handleDelete}

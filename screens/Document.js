@@ -27,7 +27,7 @@ const CATEGORIES = [
       },
       {
         name: "License",
-        docType: "professional",
+        docType: "license",
         placeholderImage: require("../assets/images/license.png"),
       },
     ],
