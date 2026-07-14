@@ -15,7 +15,7 @@ const LoginForm = () => {
         <View className="space-y-2">
           <Text className="text-3xl ">Welcome to</Text>
           <Text className="text-green-600 text-4xl font-bold">
-            FOX-JEK 2024
+            Cabs&More
           </Text>
         </View>
         {/* phone input */}

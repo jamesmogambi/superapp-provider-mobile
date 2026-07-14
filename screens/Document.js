@@ -1,45 +1,62 @@
 import { View, Text, SectionList } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
+import { useUser } from "@clerk/clerk-expo";
 import Stack from "../components/Stack";
 import { Divider } from "react-native-paper";
 import DocumentItem from "../components/DocumentItem";
+import { useDocumentStore } from "../store/documentStore";
 
-const DATA = [
+const CATEGORIES = [
   {
-    title: "Tutors",
+    title: "ID Card",
     data: [
       {
         name: "ID Card",
-        status: "Pending",
-        image: require("../assets/images/user.jpg"),
-      },
-      {
-        name: "Professional Card",
-        status: "Pending",
-        image: require("../assets/images/code.png"),
+        docType: "id_card",
+        placeholderImage: require("../assets/images/id-card.png"),
       },
     ],
   },
   {
-    title: "Beauty Service",
+    title: "Professional Documents & Licenses",
     data: [
       {
         name: "Professional Card",
-        status: "No Document",
-        image: require("../assets/images/user.jpg"),
+        docType: "professional",
+        placeholderImage: require("../assets/images/license.png"),
+      },
+      {
+        name: "License",
+        docType: "license",
+        placeholderImage: require("../assets/images/license.png"),
       },
     ],
   },
 ];
+
 const Document = () => {
+  const { user } = useUser();
+  const userId = user?.id;
+  const { loadDocuments } = useDocumentStore();
+
+  useEffect(() => {
+    if (userId) {
+      loadDocuments(userId);
+    }
+  }, [userId]);
+
   return (
     <Stack>
       <SectionList
-        sections={DATA}
-        keyExtractor={(item, index) => item + index}
+        sections={CATEGORIES}
+        keyExtractor={(item, index) => item.name + index}
         renderItem={({ item }) => (
           <View className="p-3">
-            <DocumentItem item={item} />
+            <DocumentItem
+              docType={item.docType}
+              name={item.name}
+              placeholderImage={item.placeholderImage}
+            />
           </View>
         )}
         ItemSeparatorComponent={() => <Divider />}

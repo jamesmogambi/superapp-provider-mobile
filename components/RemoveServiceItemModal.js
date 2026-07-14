@@ -4,7 +4,7 @@ import ModalComponent from "./ModalComponent";
 import ButtonOutline from "./ButtonOutline";
 import ButtonContained from "./ButtonContained";
 
-const RemoveServiceItemModal = ({ isVisible, onCancel }) => {
+const RemoveServiceItemModal = ({ isVisible, onCancel, onConfirm }) => {
   return (
     <ModalComponent isVisible={isVisible}>
       <View className="space-y-6">
@@ -19,7 +19,7 @@ const RemoveServiceItemModal = ({ isVisible, onCancel }) => {
             <ButtonOutline label={"No"} handlePress={onCancel} />
           </View>
           <View className="w-32">
-            <ButtonContained label="Yes" onPress={() => {}} />
+            <ButtonContained label="Yes" handlePress={onConfirm} />
           </View>
         </View>
       </View>

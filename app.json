@@ -1,8 +1,9 @@
 {
   "expo": {
-    "name": "dummy",
-    "slug": "dummy",
+    "name": "Cabs&More Provider",
+    "slug": "cabsandmore-provider",
     "version": "1.0.0",
+    "scheme": "cabsandmore",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -15,9 +16,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.cabsandmore.provider"
     },
     "android": {
+      "package": "com.cabsandmore.provider",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -25,6 +28,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-status-bar",
+      "expo-secure-store",
+      "expo-web-browser",
+      "expo-font"
+    ]
   }
 }

@@ -2,13 +2,20 @@ import React from "react";
 import { green600 } from "../constants/colors";
 import { Button } from "react-native-paper";
 
-const ButtonContained = ({ label, btnColor = green600, icon, handlePress }) => {
+const ButtonContained = ({
+  label,
+  btnColor = green600,
+  icon,
+  handlePress,
+  disabled,
+}) => {
   return (
     <Button
       icon={icon && icon}
       mode="contained"
       onPress={handlePress}
       buttonColor={btnColor}
+      disabled={disabled}
       className="rounded-xl"
       // labelStyle={{ fontSize: 17 }}
     >

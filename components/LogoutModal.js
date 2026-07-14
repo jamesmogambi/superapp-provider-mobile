@@ -1,10 +1,32 @@
-import { View, Text } from "react-native";
-import React from "react";
+import { View, Text, Alert } from "react-native";
+import React, { useState } from "react";
+import { useAuth } from "@clerk/clerk-expo";
 import ModalComponent from "./ModalComponent";
 import ButtonOutline from "./ButtonOutline";
 import ButtonContained from "./ButtonContained";
 
 const LogoutModal = ({ isVisible, onCancel }) => {
+  const { signOut, isSignedIn } = useAuth();
+  const [loading, setLoading] = useState(false);
+
+  const handleLogout = async () => {
+    if (!isSignedIn) {
+      onCancel();
+      return;
+    }
+
+    try {
+      setLoading(true);
+      await signOut();
+      onCancel();
+    } catch (err) {
+      console.error("Sign-out error:", err);
+      Alert.alert("Error", "Failed to logout. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <ModalComponent isVisible={isVisible}>
       <View className="space-y-6">
@@ -17,7 +39,10 @@ const LogoutModal = ({ isVisible, onCancel }) => {
             <ButtonOutline label={"Cancel"} handlePress={onCancel} />
           </View>
           <View className="w-32">
-            <ButtonContained label="Logout" onPress={() => {}} />
+            <ButtonContained
+              label={loading ? "..." : "Logout"}
+              handlePress={handleLogout}
+            />
           </View>
         </View>
       </View>

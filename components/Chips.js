@@ -10,7 +10,7 @@ const Chips = ({
 }) => {
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-      <View className="flex-row space-x-3 px-2">
+      <View className="flex-row gap-3 px-2">
         {options.map((i, k) => (
           <Pressable
             className={`${

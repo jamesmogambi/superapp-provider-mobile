@@ -64,7 +64,7 @@ export const items = [
   },
   {
     name: "Support",
-    icon: <AntDesign name="questioncircleo" size={24} color={green600} />,
+    icon: <AntDesign name="question-circle" size={24} color={green600} />,
     path: "Support",
   },
   {

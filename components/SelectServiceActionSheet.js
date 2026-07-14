@@ -1,66 +1,35 @@
 import { View, Text, Pressable, Dimensions, FlatList } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import ActionSheet from "./ActionSheet";
 import { Feather } from "@expo/vector-icons";
 import ButtonContained from "./ButtonContained";
 import { Checkbox, Divider } from "react-native-paper";
 import { green600 } from "../constants/colors";
 
-const services = [
-  {
-    name: "Dog Walking",
-    checked: true,
-  },
-  {
-    name: "Pet Care",
-    checked: true,
-  },
-  {
-    name: "Baby Care",
-    checked: true,
-  },
-  {
-    name: "Dog Walking",
-    checked: false,
-  },
-  {
-    name: "Dog Walking",
-    checked: false,
-  },
-  {
-    name: "Dog Walking",
-    checked: true,
-  },
-  {
-    name: "Dog Walking",
-    checked: true,
-  },
-  {
-    name: "Dog Walking",
-    checked: true,
-  },
-  {
-    name: "Dog Walking",
-    checked: true,
-  },
-  {
-    name: "Dog Walking",
-    checked: true,
-  },
-  {
-    name: "Dog Walking",
-    checked: true,
-  },
-  {
-    name: "Dog Walking",
-    checked: true,
-  },
-];
-
 const height = Dimensions.get("window").height;
 
-const SelectServiceActionSheet = ({ isVisible, onCancel }) => {
-  const [checked, setChecked] = React.useState(false);
+const SelectServiceActionSheet = ({ isVisible, onCancel, services = [], onDone }) => {
+  const [selected, setSelected] = useState({});
+
+  const toggle = (id) => {
+    setSelected((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  const handleDone = () => {
+    const selectedServices = services.filter((s) => selected[s.id]);
+    if (typeof onDone === "function") {
+      onDone(selectedServices);
+    }
+    setSelected({});
+  };
+
+  const renderItem = ({ item }) => (
+    <Pressable className="flex-row justify-between py-2" onPress={() => toggle(item.id)}>
+      <Text className="text-base">{item.name}</Text>
+      <Checkbox status={selected[item.id] ? "checked" : "unchecked"} color={green600} />
+    </Pressable>
+  );
+
   return (
     <ActionSheet isVisible={isVisible} onCancel={onCancel}>
       <View style={{ height: height / 2 }}>
@@ -80,25 +49,13 @@ const SelectServiceActionSheet = ({ isVisible, onCancel }) => {
           <View className="p-4 pt-0  flex-1">
             <FlatList
               data={services}
-              renderItem={({ item, index }) => (
-                <View className="flex-row justify-between">
-                  <Text className="text-base">{item.name}</Text>
-                  <Checkbox
-                    status={item.checked ? "checked" : "unchecked"}
-                    onPress={() => {
-                      setChecked(!checked);
-                    }}
-                    color={green600}
-                  />
-                </View>
-              )}
-              keyExtractor={(item, index) => item + index}
+              renderItem={renderItem}
+              keyExtractor={(item, index) => item.id || item.name + index}
               showsVerticalScrollIndicator={false}
-              //   ItemSeparatorComponent={<Divider />}
             />
           </View>
           <View className="px-[30%] py-2">
-            <ButtonContained label={"Done"} />
+            <ButtonContained label={"Done"} handlePress={handleDone} />
           </View>
         </View>
       </View>

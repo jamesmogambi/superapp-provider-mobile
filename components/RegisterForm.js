@@ -31,7 +31,7 @@ const RegisterForm = ({ onSubmit }) => {
           </View>
           <View className="space-y-2.5 mt-5">
             <Text className="text-2xl ">Get started with</Text>
-            <Text className="text-green-600 text-2xl ">Fox-jek 2024</Text>
+            <Text className="text-green-600 text-2xl ">Cabs&More</Text>
           </View>
           <View className="space-y-4 mt-5">
             <View>
