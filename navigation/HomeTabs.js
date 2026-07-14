@@ -25,12 +25,18 @@ const HomeTabs = () => {
       <Tab.Screen
         name="Accepted"
         component={Orders}
-        options={{ tabBarLabel: "Accept" }}
+        options={{ tabBarLabel: "Accepted" }}
       />
       <Tab.Screen
         name="Processing"
         component={Orders}
         options={{ tabBarLabel: "In Process" }}
+      />
+
+      <Tab.Screen
+        name="Rejected"
+        component={Orders}
+        options={{ tabBarLabel: "Rejected" }}
       />
       <Tab.Screen name="Completed" component={Orders} />
     </Tab.Navigator>

@@ -74,7 +74,7 @@ const OrderFooter = () => {
     >
       <View className="">
         <View className="flex-row justify-between items-center">
-          <View className="flex-row gap-3 p-2 items-center">
+          <View className="flex-row gap-3 p-2 pb-0 items-center">
             <Image
               source={{ uri: imageUri }}
               className="rounded-xl h-14 w-14"

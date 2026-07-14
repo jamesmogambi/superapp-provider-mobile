@@ -11,10 +11,12 @@ export const orders = [
     deliveryAddress: "7958 Swift Village ,Chicago , US",
     deliveryTime: "11 Nov 2023, Wed, 04:00 PM - 05:00 PM",
     bookingID: "775777547857",
+    providerId: "user_3GSlAPidWynnGBfnHAcwZj52VWx",
     customer: {
       name: "Tami S. Schaefer",
       phone: "+254701694004",
       image: require("../assets/images/license.png"),
+      userId: "7hubunwdinnkj",
     },
     tax: 50,
 
