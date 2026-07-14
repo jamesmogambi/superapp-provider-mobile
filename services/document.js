@@ -1,17 +1,18 @@
 import { db } from "../firebaseConfig";
 import { collection, addDoc, query, where, getDocs, deleteDoc, doc, serverTimestamp } from "firebase/firestore";
-import { uploadImageToCloudinary } from "./upload";
+import { uploadFileToCloudinary } from "./upload";
 
 export const uploadDocument = async (userId, docType, name, uri) => {
   if (!userId) return null;
   try {
-    const { url, publicId } = await uploadImageToCloudinary(uri);
+    const { url, publicId, fileType } = await uploadFileToCloudinary(uri);
     const payload = {
       userId,
       docType,
       name,
       url,
       publicId,
+      fileType,
       status: "Pending",
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
