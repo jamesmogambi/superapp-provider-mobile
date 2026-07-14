@@ -1,32 +1,48 @@
 import { View, Text, Image } from "react-native";
-import React, { useState } from "react";
+import React from "react";
 import { Surface } from "react-native-paper";
 import ButtonContained from "./ButtonContained";
 import * as ImagePicker from "expo-image-picker";
+import { useDocumentStore } from "../store/documentStore";
+import { useUser } from "@clerk/clerk-expo";
 
-const DocumentItem = ({ item }) => {
-  const { name, status, image } = item;
-  const [documentImage, setImage] = useState("");
+const DocumentItem = ({ docType, name, placeholderImage }) => {
+  const { user } = useUser();
+  const userId = user?.id;
+  const { documents, uploading, uploadDocument, removeDocument } = useDocumentStore();
+  const existingDoc = documents.find((d) => d.docType === docType && !d.uploading);
+
+  const displayImage = existingDoc?.url || placeholderImage;
+  const status = existingDoc?.status || "No Document";
+  const isUploading = documents.some((d) => d.docType === docType && d.uploading);
 
   const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
 
-    console.log(result);
-
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
+    if (!result.canceled && result.assets?.[0]?.uri) {
+      try {
+        await uploadDocument(userId, docType, name, result.assets[0].uri);
+      } catch (err) {
+        console.error("Upload failed", err);
+      }
     }
   };
+
+  const handleDelete = async () => {
+    if (existingDoc?.id) {
+      await removeDocument(existingDoc.id);
+    }
+  };
+
   return (
     <View className="flex-row space-x-3">
-      <Surface elevation={2} className="bg-white w-28 h-28 p-1  rounded-lg">
-        <Image source={image} className="w-full h-full rounded-lg " />
+      <Surface elevation={2} className="bg-white w-28 h-28 p-1 rounded-lg">
+        <Image source={{ uri: displayImage }} className="w-full h-full rounded-lg" />
       </Surface>
       <View className="flex-1">
         <View>
@@ -44,9 +60,18 @@ const DocumentItem = ({ item }) => {
             </Text>
           </View>
         </View>
-        <View className="flex-row justify-end ">
-          <View className="w-32">
-            <ButtonContained label={"Upload"} handlePress={pickImage} />
+        <View className="flex-row justify-end gap-2">
+          {existingDoc && (
+            <View className="w-20">
+              <ButtonContained label={"Delete"} handlePress={handleDelete} btnColor="#dc2626" />
+            </View>
+          )}
+          <View className="w-20">
+            <ButtonContained
+              label={isUploading ? "..." : "Upload"}
+              handlePress={pickImage}
+              disabled={isUploading}
+            />
           </View>
         </View>
       </View>
