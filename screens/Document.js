@@ -13,7 +13,7 @@ const CATEGORIES = [
       {
         name: "ID Card",
         docType: "id_card",
-        placeholderImage: require("../assets/images/user.jpg"),
+        placeholderImage: require("../assets/images/id-card.png"),
       },
     ],
   },
@@ -23,12 +23,12 @@ const CATEGORIES = [
       {
         name: "Professional Card",
         docType: "professional",
-        placeholderImage: require("../assets/images/code.png"),
+        placeholderImage: require("../assets/images/license.png"),
       },
       {
         name: "License",
         docType: "professional",
-        placeholderImage: require("../assets/images/user.jpg"),
+        placeholderImage: require("../assets/images/license.png"),
       },
     ],
   },
