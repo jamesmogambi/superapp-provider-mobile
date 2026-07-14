@@ -36,7 +36,7 @@ const ServiceItem = ({ item, onRemove, onToggleActive }) => {
           <StatusBadge status={status} />
         </View>
         <View className="flex-row justify-between items-center">
-          <View className="flex-row space-x-2.5">
+          <View className="flex-row gap-2.5">
             <Pressable
               onPress={() => navigation.navigate("Packages", { service: item })}
               className="flex-row p-2 px-3 items-center border-[0.5px] rounded-3xl space-x-2"

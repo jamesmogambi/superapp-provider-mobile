@@ -18,7 +18,7 @@ export const getProviderOrders = async (userId, status) => {
       where("status", "==", status)
     );
     const snapshot = await getDocs(q);
-    return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    return snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
   } catch (err) {
     console.error("Failed to fetch orders", err);
     return [];

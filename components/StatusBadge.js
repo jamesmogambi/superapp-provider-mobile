@@ -1,45 +1,74 @@
 import { View, Text } from "react-native";
 import {
-  MaterialCommunityIcons,
   FontAwesome5,
+  MaterialCommunityIcons,
   MaterialIcons,
 } from "@expo/vector-icons";
 
+const STATUS_CONFIG = {
+  new: {
+    label: "New",
+    bg: "bg-blue-100",
+    border: "border-blue-600",
+    dot: "bg-blue-600",
+    icon: "clipboard-check",
+    iconFamily: FontAwesome5,
+  },
+  accepted: {
+    label: "Accepted",
+    bg: "bg-cyan-100",
+    border: "border-cyan-600",
+    dot: "bg-cyan-600",
+    icon: "clipboard-check",
+    iconFamily: FontAwesome5,
+  },
+  "in-process": {
+    label: "In Process",
+    bg: "bg-orange-100",
+    border: "border-orange-300",
+    dot: "bg-orange-300",
+    icon: "loop",
+    iconFamily: MaterialIcons,
+  },
+  rejected: {
+    label: "Rejected",
+    bg: "bg-red-100",
+    border: "border-red-600",
+    dot: "bg-red-500",
+    icon: "book-cancel",
+    iconFamily: MaterialCommunityIcons,
+  },
+  completed: {
+    label: "Completed",
+    bg: "bg-green-100",
+    border: "border-green-600",
+    dot: "bg-green-600",
+    icon: "clipboard-check",
+    iconFamily: FontAwesome5,
+  },
+};
+
+const normalizeStatus = (status) => {
+  if (!status) return "new";
+  const key = status.toLowerCase().trim();
+  return STATUS_CONFIG[key] ? key : "new";
+};
+
 const StatusBadge = ({ status }) => {
+  const key = normalizeStatus(status);
+  const config = STATUS_CONFIG[key];
+  const IconComponent = config.iconFamily;
+
   return (
     <View
-      className={`${
-        status === "Completed" && "bg-green-100 border-green-600"
-      } ${status === "Pending" && `bg-orange-100 border-orange-300`} ${
-        status === "Canceled" && "bg-red-100 border-red-600"
-      }
-       ${status === "Processing" && `bg-orange-100 border-orange-300`}
-      border-[0.5px]  rounded-md flex-row items-center  space-x-1 pr-2 `}
+      className={`${config.bg} ${config.border} border-[0.5px] rounded-md flex-row items-center gap-2 pr-2`}
     >
       <View
-        className={`${status === "Completed" && "bg-green-600"} ${
-          status === "Pending" && `bg-orange-300 `
-        } ${status === "Canceled" && "bg-red-500 "} 
-        ${status === "Processing" && `bg-orange-300 `}
-        flex-row justify-center  rounded-md w-7 h-7  items-center`}
+        className={`${config.dot} flex-row justify-center rounded-md w-7 h-7 items-center`}
       >
-        {status === "Completed" && (
-          <FontAwesome5 name="clipboard-check" size={18} color="white" />
-        )}
-        {status === "New Order" && (
-          <FontAwesome5 name="clipboard-check" size={18} color="white" />
-        )}
-        {status === "Pending" && (
-          <FontAwesome5 name="clipboard-list" size={18} color="white" />
-        )}
-        {status === "Canceled" && (
-          <MaterialCommunityIcons name="book-cancel" size={18} color="white" />
-        )}
-        {status === "Processing" && (
-          <MaterialIcons name="loop" size={18} color="white" />
-        )}
+        <IconComponent name={config.icon} size={18} color="white" />
       </View>
-      <Text className="text-[15px]"> {status}</Text>
+      <Text className="text-[15px]">{config.label}</Text>
     </View>
   );
 };

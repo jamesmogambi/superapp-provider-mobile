@@ -1,5 +1,6 @@
 import { db } from "../firebaseConfig";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
+import { uploadFileToCloudinary } from "./upload";
 
 export const PROVIDER_ROLE = "provider-service";
 
@@ -12,25 +13,17 @@ const splitName = (fullName = "") => {
   return { firstName, lastName };
 };
 
-const fileFromUri = async (uri) => {
-  const response = await fetch(uri);
-  const blob = await response.blob();
-  const name = uri.split("/").pop() || "profile.jpg";
-
-  if (typeof File !== "undefined") {
-    return new File([blob], name, { type: blob.type || "image/jpeg" });
-  }
-
-  return blob;
-};
-
 export const uploadProfileImage = async (user, uri) => {
   if (!user) throw new Error("You must be signed in to upload a photo");
   if (!uri || isRemoteImage(uri)) return user.imageUrl || null;
 
-  const file = await fileFromUri(uri);
-  const image = await user.setProfileImage({ file });
-  return image?.url || user.imageUrl || null;
+  try {
+    const result = await uploadFileToCloudinary(uri);
+    return result.url;
+  } catch (err) {
+    console.error("Profile image upload failed:", err);
+    throw new Error("Failed to upload profile image. Please try again.");
+  }
 };
 
 export const saveProviderProfile = async (user, values = {}) => {

@@ -3,6 +3,7 @@ import { View, Text, Pressable, ActivityIndicator, KeyboardAvoidingView, ScrollV
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSignIn } from "@clerk/clerk-expo";
 import { useNavigation } from "@react-navigation/native";
+import { TextInput } from "react-native-paper";
 import InputOutline from "../components/InputOutline";
 import ButtonContained from "../components/ButtonContained";
 
@@ -14,6 +15,7 @@ const SignIn = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -81,8 +83,14 @@ const SignIn = () => {
                 label="Password"
                 value={password}
                 onChange={setPassword}
-                secureTextEntry
+                secureTextEntry={!showPassword}
                 autoCapitalize="none"
+                right={
+                  <TextInput.Icon
+                    icon={showPassword ? "eye-off" : "eye"}
+                    onPress={() => setShowPassword(!showPassword)}
+                  />
+                }
               />
 
               {error ? (

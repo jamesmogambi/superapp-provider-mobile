@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, Alert } from "react-native";
 import React, { useState } from "react";
 import { useAuth } from "@clerk/clerk-expo";
 import ModalComponent from "./ModalComponent";
@@ -6,19 +6,24 @@ import ButtonOutline from "./ButtonOutline";
 import ButtonContained from "./ButtonContained";
 
 const LogoutModal = ({ isVisible, onCancel }) => {
-  const { signOut } = useAuth();
+  const { signOut, isSignedIn } = useAuth();
   const [loading, setLoading] = useState(false);
 
   const handleLogout = async () => {
+    if (!isSignedIn) {
+      onCancel();
+      return;
+    }
+
     try {
       setLoading(true);
-      // Clears the Clerk session; RootStack then renders the AuthStack.
       await signOut();
+      onCancel();
     } catch (err) {
       console.error("Sign-out error:", err);
+      Alert.alert("Error", "Failed to logout. Please try again.");
     } finally {
       setLoading(false);
-      onCancel();
     }
   };
 

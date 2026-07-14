@@ -121,7 +121,7 @@ const OrderItem = ({ item, onStatusUpdate }) => {
 
   const handlePress = (btn) => {
     if (btn.action === "view") {
-      navigation.navigate("OrderDetails");
+      navigation.navigate("OrderDetails", { order: item });
     } else {
       handleAction(btn.action);
     }
@@ -130,7 +130,7 @@ const OrderItem = ({ item, onStatusUpdate }) => {
   return (
     <View className="space-y-2">
       <Pressable
-        onPress={() => navigation.navigate("OrderDetails")}
+        onPress={() => navigation.navigate("OrderDetails", { order: item })}
         className="space-y-2"
       >
         <View className="flex-row items-center justify-between">

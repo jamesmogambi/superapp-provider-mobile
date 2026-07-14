@@ -26,7 +26,7 @@ const DocumentItem = ({ docType, name, placeholderImage }) => {
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ["images", "videos"],
       allowsEditing: false,
       quality: 1,
     });
