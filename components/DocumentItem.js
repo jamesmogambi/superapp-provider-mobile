@@ -15,6 +15,7 @@ const DocumentItem = ({ docType, name, placeholderImage }) => {
   const displayImage = existingDoc?.url || placeholderImage;
   const status = existingDoc?.status || "No Document";
   const isUploading = documents.some((d) => d.docType === docType && d.uploading);
+  const imageSource = existingDoc?.url ? { uri: displayImage } : displayImage;
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -42,7 +43,7 @@ const DocumentItem = ({ docType, name, placeholderImage }) => {
   return (
     <View className="flex-row space-x-3">
       <Surface elevation={2} className="bg-white w-28 h-28 p-1 rounded-lg">
-        <Image source={{ uri: displayImage }} className="w-full h-full rounded-lg" />
+        <Image source={imageSource} className="w-full h-full rounded-lg" />
       </Surface>
       <View className="flex-1">
         <View>
