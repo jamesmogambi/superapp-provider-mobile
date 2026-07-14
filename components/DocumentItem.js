@@ -9,12 +9,17 @@ import { useUser } from "@clerk/clerk-expo";
 const DocumentItem = ({ docType, name, placeholderImage }) => {
   const { user } = useUser();
   const userId = user?.id;
-  const { documents, uploading, uploadDocument, removeDocument } = useDocumentStore();
-  const existingDoc = documents.find((d) => d.docType === docType && !d.uploading);
+  const { documents, uploading, uploadDocument, removeDocument } =
+    useDocumentStore();
+  const existingDoc = documents.find(
+    (d) => d.docType === docType && !d.uploading,
+  );
 
   const displayImage = existingDoc?.url || placeholderImage;
   const status = existingDoc?.status || "No Document";
-  const isUploading = documents.some((d) => d.docType === docType && d.uploading);
+  const isUploading = documents.some(
+    (d) => d.docType === docType && d.uploading,
+  );
   const imageSource = existingDoc?.url ? { uri: displayImage } : displayImage;
 
   const pickImage = async () => {
@@ -41,7 +46,7 @@ const DocumentItem = ({ docType, name, placeholderImage }) => {
   };
 
   return (
-    <View className="flex-row space-x-3">
+    <View className="flex-row gap-4">
       <Surface elevation={2} className="bg-white w-28 h-28 p-1 rounded-lg">
         <Image source={imageSource} className="w-full h-full rounded-lg" />
       </Surface>
@@ -63,11 +68,15 @@ const DocumentItem = ({ docType, name, placeholderImage }) => {
         </View>
         <View className="flex-row justify-end gap-2">
           {existingDoc && (
-            <View className="w-20">
-              <ButtonContained label={"Delete"} handlePress={handleDelete} btnColor="#dc2626" />
+            <View className="w-24">
+              <ButtonContained
+                label={"Delete"}
+                handlePress={handleDelete}
+                btnColor="#dc2626"
+              />
             </View>
           )}
-          <View className="w-20">
+          <View className="w-24">
             <ButtonContained
               label={isUploading ? "..." : "Upload"}
               handlePress={pickImage}
