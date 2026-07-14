@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { uploadImageToCloudinary, saveWorkImage, getWorkImages, deleteWorkImage } from "../services/upload";
+import { uploadFileToCloudinary, saveWorkImage, getWorkImages, deleteWorkImage } from "../services/upload";
 
 export const useUploadStore = create((set, get) => ({
   images: [],
@@ -27,7 +27,7 @@ export const useUploadStore = create((set, get) => ({
     set((state) => ({ images: [...state.images, tempImage] }));
 
     try {
-      const { url, publicId } = await uploadImageToCloudinary(uri);
+      const { url, publicId } = await uploadFileToCloudinary(uri);
       const saved = await saveWorkImage(userId, url, publicId);
       const finalImage = { id: saved.id, url: saved.url, publicId: saved.publicId, uploading: false };
       set((state) => ({

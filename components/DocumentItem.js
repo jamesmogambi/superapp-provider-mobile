@@ -5,6 +5,7 @@ import ButtonContained from "./ButtonContained";
 import * as ImagePicker from "expo-image-picker";
 import { useDocumentStore } from "../store/documentStore";
 import { useUser } from "@clerk/clerk-expo";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const DocumentItem = ({ docType, name, placeholderImage }) => {
   const { user } = useUser();
@@ -21,12 +22,12 @@ const DocumentItem = ({ docType, name, placeholderImage }) => {
     (d) => d.docType === docType && d.uploading,
   );
   const imageSource = existingDoc?.url ? { uri: displayImage } : displayImage;
+  const isPdf = existingDoc?.fileType === "pdf";
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: false,
       quality: 1,
     });
 
@@ -47,8 +48,15 @@ const DocumentItem = ({ docType, name, placeholderImage }) => {
 
   return (
     <View className="flex-row gap-4">
-      <Surface elevation={2} className="bg-white w-28 h-28 p-1 rounded-lg">
-        <Image source={imageSource} className="w-full h-full rounded-lg" />
+      <Surface
+        elevation={2}
+        className="bg-white w-28 h-28 p-1 rounded-lg items-center justify-center"
+      >
+        {isPdf ? (
+          <MaterialIcons name="picture-as-pdf" size={48} color="#dc2626" />
+        ) : (
+          <Image source={imageSource} className="w-full h-full rounded-lg" />
+        )}
       </Surface>
       <View className="flex-1">
         <View>
@@ -76,7 +84,7 @@ const DocumentItem = ({ docType, name, placeholderImage }) => {
               />
             </View>
           )}
-          <View className="w-24">
+          <View className="">
             <ButtonContained
               label={isUploading ? "..." : "Upload"}
               handlePress={pickImage}

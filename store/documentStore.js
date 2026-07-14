@@ -23,12 +23,12 @@ export const useDocumentStore = create((set, get) => ({
     }
     set({ uploading: true, error: null });
     const tempId = `temp_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`;
-    const tempDoc = { id: tempId, docType, name, url: uri, publicId: null, uploading: true };
+    const tempDoc = { id: tempId, docType, name, url: uri, publicId: null, fileType: null, uploading: true };
     set((state) => ({ documents: [...state.documents, tempDoc] }));
 
     try {
       const saved = await uploadDocument(userId, docType, name, uri);
-      const finalDoc = { id: saved.id, docType: saved.docType, name: saved.name, url: saved.url, publicId: saved.publicId, status: saved.status, uploading: false };
+      const finalDoc = { id: saved.id, docType: saved.docType, name: saved.name, url: saved.url, publicId: saved.publicId, fileType: saved.fileType, status: saved.status, uploading: false };
       set((state) => ({
         documents: state.documents.map((d) => (d.id === tempId ? finalDoc : d)),
         uploading: false,
