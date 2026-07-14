@@ -5,41 +5,41 @@ const CLOUD_NAME = process.env.EXPO_PUBLIC_CLOUDINARY_CLOUD_NAME;
 const UPLOAD_PRESET = process.env.EXPO_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
 const UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
 
-const fileFromUri = async (uri) => {
-  const response = await fetch(uri);
-  const blob = await response.blob();
-  const name = uri.split("/").pop() || "upload.jpg";
-  if (typeof File !== "undefined") {
-    return new File([blob], name, { type: blob.type || "image/jpeg" });
-  }
-  return blob;
-};
-
 export const uploadImageToCloudinary = async (uri) => {
   if (!CLOUD_NAME || !UPLOAD_PRESET) {
     throw new Error("Cloudinary is not configured. Set EXPO_PUBLIC_CLOUDINARY_CLOUD_NAME and EXPO_PUBLIC_CLOUDINARY_UPLOAD_PRESET.");
   }
-  const file = await fileFromUri(uri);
-  const formData = new FormData();
-  formData.append("file", file);
-  formData.append("upload_preset", UPLOAD_PRESET);
-  formData.append("folder", "superapp/work_images");
 
-  const res = await fetch(UPLOAD_URL, {
-    method: "POST",
-    body: formData,
+  return new Promise((resolve, reject) => {
+    const formData = new FormData();
+    formData.append("file", {
+      uri,
+      type: "image/jpeg",
+      name: "upload.jpg",
+    });
+    formData.append("upload_preset", UPLOAD_PRESET);
+    formData.append("folder", "superapp/work_images");
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", UPLOAD_URL);
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        try {
+          const data = JSON.parse(xhr.responseText);
+          resolve({
+            url: data.secure_url,
+            publicId: data.public_id,
+          });
+        } catch {
+          reject(new Error("Invalid response from Cloudinary"));
+        }
+      } else {
+        reject(new Error(`Cloudinary upload failed: ${xhr.status} ${xhr.responseText}`));
+      }
+    };
+    xhr.onerror = () => reject(new Error("Network error during Cloudinary upload"));
+    xhr.send(formData);
   });
-
-  if (!res.ok) {
-    const text = await res.text();
-    throw new Error(`Cloudinary upload failed: ${res.status} ${text}`);
-  }
-
-  const data = await res.json();
-  return {
-    url: data.secure_url,
-    publicId: data.public_id,
-  };
 };
 
 export const saveWorkImage = async (userId, url, publicId) => {

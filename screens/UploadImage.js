@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import { useUser } from "@clerk/clerk-expo";
 import Stack from "../components/Stack";
 import UploadImageSection from "../components/UploadImageSection";
-import ButtonContained from "../components/ButtonContained";
 import { useUploadStore } from "../store/uploadStore";
 
 const UploadImage = () => {
@@ -17,12 +16,6 @@ const UploadImage = () => {
       loadImages(userId);
     }
   }, [userId]);
-
-  const handleSubmit = () => {
-    if (images.length === 0) {
-      return;
-    }
-  };
 
   return (
     <Stack>
@@ -50,13 +43,6 @@ const UploadImage = () => {
           />
         </View>
         {error && <Text className="text-red-500 text-sm mt-2">{error}</Text>}
-        <View className="mt-4">
-          <ButtonContained
-            label="Submit"
-            handlePress={handleSubmit}
-            disabled={uploading || images.length === 0}
-          />
-        </View>
       </View>
     </Stack>
   );
