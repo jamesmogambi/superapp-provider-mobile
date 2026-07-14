@@ -1,20 +1,29 @@
 import { View, Text } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect } from "react";
+import { useUser } from "@clerk/clerk-expo";
 import Stack from "../components/Stack";
-import Chips from "../components/Chips";
 import UploadImageSection from "../components/UploadImageSection";
+import ButtonContained from "../components/ButtonContained";
+import { useUploadStore } from "../store/uploadStore";
 
-const options = [
-  { name: "Tutor" },
-  { name: "Beauty" },
-  { name: "Home Cleaning" },
-];
 const UploadImage = () => {
-  const [selectedOption, setSelectedOption] = useState(options[0].name);
+  const { user } = useUser();
+  const userId = user?.id;
+  const { images, uploading, error, loadImages, addImage, removeImage } =
+    useUploadStore();
 
-  const handlePressChip = (param) => {
-    setSelectedOption(param);
+  useEffect(() => {
+    if (userId) {
+      loadImages(userId);
+    }
+  }, [userId]);
+
+  const handleSubmit = () => {
+    if (images.length === 0) {
+      return;
+    }
   };
+
   return (
     <Stack>
       <View className="flex-1 p-4">
@@ -27,21 +36,26 @@ const UploadImage = () => {
               (Max 9 Images, 1:1 Ratio)
             </Text>
           </View>
-
           <Text className="text-base font-medium">
             Make sure the images you upload should be yours and read. It is
             necessary to upload images only regarding your work
           </Text>
         </View>
-        <View className="py-3">
-          <Chips
-            handlePressChip={handlePressChip}
-            selectedOption={selectedOption}
-            options={options}
+        <View className="py-2">
+          <UploadImageSection
+            images={images}
+            uploading={uploading}
+            onPickImage={(uri) => addImage(userId, uri)}
+            onRemoveImage={(id) => removeImage(id)}
           />
         </View>
-        <View className="py-2">
-          <UploadImageSection />
+        {error && <Text className="text-red-500 text-sm mt-2">{error}</Text>}
+        <View className="mt-4">
+          <ButtonContained
+            label="Submit"
+            handlePress={handleSubmit}
+            disabled={uploading || images.length === 0}
+          />
         </View>
       </View>
     </Stack>
